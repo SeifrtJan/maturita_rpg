@@ -53,102 +53,74 @@
         }
 
         
-        private void ConfigDoors() //tyhle config metody jsou manualni pridelovani a je to docela prasarna
+        private void ConfigDoors()
         {
-            Map insideMap = maps[0];
-            Map outsideMap = maps[1];
-            Map basement = maps[2];
+            Map tutorialMap = maps[0];
+            Map mazeMap = maps[1];
 
-            //INSIDE MAP
-            List<Door> insideMapDoors = new List<Door>();
-            foreach (var gameObject in insideMap.gameObjects)
+            //TUTORIAL
+            List<Door> tutorialMapDoors = new List<Door>();
+            foreach (var gameObject in tutorialMap.gameObjects)
             {
                 if (gameObject is Door)
-                {
-                    Door door = (Door)gameObject;
-                    door.entredMap = outsideMap;
-                    insideMapDoors.Add(door);
-                }
+                    tutorialMapDoors.Add(gameObject as Door);
             }
-            insideMapDoors[1].entredMap = basement;
 
-            //OUTSIDE MAP
-            List<Door> outsideMapDoors = new List<Door>();
-            foreach (var gameObject in outsideMap.gameObjects)
+            //MAZE
+            List<Door> mazeMapDoors = new List<Door>();
+            foreach (var gameObject in mazeMap.gameObjects)
             {
                 if (gameObject is Door)
-                {
-                    Door door = (Door)gameObject;
-                    door.entredMap = insideMap;
-                    outsideMapDoors.Add(door);
-                }
-                
+                    mazeMapDoors.Add(gameObject as Door);
             }
 
-            //SKLEP
-            List<Door> basementMapDoors = new List<Door>();
-            foreach (var gameObject in basement.gameObjects)
-            {
-                if (gameObject is Door)
-                {
-                    Door door = (Door)gameObject;
-                    door.entredMap = insideMap;
-                    basementMapDoors.Add(door);
-                }
-            }
-            basementMapDoors[0].twinDoor = insideMapDoors[1];
+            //tutorial
+            tutorialMapDoors[0].entredMap = mazeMap;
+            tutorialMapDoors[0].twinDoor = mazeMapDoors[0];
 
-            //INSIDE MAP
-            //leading outside
-            insideMapDoors[0].twinDoor = outsideMapDoors[0];            
-            insideMapDoors[2].twinDoor = outsideMapDoors[1];
-            insideMapDoors[3].twinDoor = outsideMapDoors[2];
-            //leading down
-            insideMapDoors[1].twinDoor = basementMapDoors[0];
-
-            //OUTSIDE MAP
-            //leading inside
-            outsideMapDoors[0].twinDoor = insideMapDoors[0];
-            outsideMapDoors[1].twinDoor = insideMapDoors[2];
-            outsideMapDoors[2].twinDoor = insideMapDoors[3];
+            //maze
+            mazeMapDoors[0].entredMap = tutorialMap;
+            mazeMapDoors[0].twinDoor = tutorialMapDoors[0]; 
 
             
         }
 
-        private void ConfigChests() //tyhle config metody jsou manualni pridelovani a je to docela prasarna
+        private void ConfigChests() 
         {
-            Map insideMap = maps[0];
-            List<Chest> insideMapChests = new List<Chest>();
+            Map tutorialMap = maps[0];
+            Map mazeMap = maps[1];
 
-            foreach (var gameObject in insideMap.gameObjects)
+            //TUTORIAL
+            List<Chest> tutorialMapChests = new List<Chest>();
+            foreach (var gameObject in tutorialMap.gameObjects)
             {
                 if (gameObject is Chest)
-                {
-                    insideMapChests.Add((Chest)gameObject);
-                }                
+                    tutorialMapChests.Add(gameObject as Chest);
             }
+            tutorialMapChests[0].content = new Weapon("weapon", "this is a weapon", 50);
+            tutorialMapChests[1].content = new Armor("armor", "this is a piece of armor", 20);
+            tutorialMapChests[2].content = new HealingItem("potion", "this is a healing potion", 20);
 
-            insideMapChests[0].content = new Weapon("Sword1", "testovaci zbran", 200);
-            insideMapChests[1].content = new Weapon("Sword2", "ahoj", 11);
-            insideMapChests[2].content = new Armor("Armor1", "nic", 15);
-            insideMapChests[3].content = new Armor("Armor2", "ajdskf", 100);
+
         }
 
-        private void ConfigEnemies() //tyhle config metody jsou manualni pridelovani a je to docela prasarna
+        private void ConfigEnemies()
         {
-            Map insideMap = maps[0];
-            List<EnemyObject> insideMapEnemies = new List<EnemyObject>();
+            Map tutorialMap = maps[0];
+            Map mazeMap = maps[1];
 
-            foreach (var gameObject in insideMap.gameObjects)
+            //TUTORIAL
+            List<EnemyObject> tutorialMapEnemies = new List<EnemyObject>();
+            foreach (var gameObject in tutorialMap.gameObjects)
             {
                 if (gameObject is EnemyObject)
-                {
-                    insideMapEnemies.Add((EnemyObject)gameObject);
-                }
+                    tutorialMapEnemies.Add(gameObject as EnemyObject);
             }
+            tutorialMapEnemies[0].enemy = new Enemy("dummy", 200, 3, 0, this);
 
-            insideMapEnemies[0].enemy = new Enemy("bandit", 400, 50, 20, this);
+
         }
+      
 
         public void PrintCurrentArea()
         {
@@ -323,11 +295,11 @@
         private void CheckForCollisions()
         {
             
-            foreach (var @object in currentMap.gameObjects)
+            foreach (var gameObject in currentMap.gameObjects)
             {
-                if (player.y == @object.y && player.x == @object.x)
+                if (player.y == gameObject.y && player.x == gameObject.x)
                 {
-                    @object.TakeEffect(this);
+                    gameObject.TakeEffect(this);
                 }
             }
                 
@@ -370,7 +342,7 @@
         {
             //map
             maps = new List<Map>();          
-            topLeftCornerShown = new Coord(10, 50, true); //sets initial view
+            topLeftCornerShown = new Coord(0, 0, true); //sets initial view
             mapOffsetLeft = 25;
             mapOffsetTop = 5;
 
@@ -381,7 +353,7 @@
             ActionTextBoxWidth = 26;
 
             //player
-            player = new Player(20, 59, "johny", 100, 10, 0, this); //sets initial player position
+            player = new Player(3, 25, "johny", 100, 10, 0, this); //sets initial player position
 
             //inventory
             inventoryEscape = false;
@@ -406,10 +378,8 @@
 
             gameMenu.StartMenu();
 
-            LoadMap("map.txt");
-            LoadMap("outsideMap.txt");
-            LoadMap("sklepMap.txt");
-            LoadMap("maze.txt");
+            LoadMap("../../../\\maps\\tutorial.txt");
+            LoadMap("../../../\\maps\\maze.txt");
             currentMap = maps[0];
 
             ConfigDoors();

@@ -10,7 +10,7 @@ namespace maturita_rpg
     internal partial class Game
     {
         private bool inventoryEscape;
-        private int selectedItemIndex;
+        public int selectedItemIndex;
 
         public void PrintInventory()
         {
@@ -46,11 +46,14 @@ namespace maturita_rpg
 
         public void InventoryTick()
         {
-            InventoryNavigation();
+            if (!player.inventory.Any<Item>())
+                inventoryEscape = true;
+            else
+                InventoryNavigation();
         }
 
         private void InventoryNavigation()
-        {
+        {           
             Item selectedItem = player.inventory[selectedItemIndex];
 
             ConsoleKeyInfo keyPressed = Console.ReadKey(intercept: true);

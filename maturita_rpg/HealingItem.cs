@@ -10,14 +10,17 @@ namespace maturita_rpg
     {
         public int healAmount;
 
-        public HealingItem(int healAmount, string name, string description) : base(name, description)
+        public HealingItem(string name, string description, int healAmount) : base(name, description)
         {
             this.healAmount = healAmount;
         }
 
         public override void Equip()
         {
-            game.player.hp =+ healAmount;
+            game.player.hp = game.player.hp + healAmount;
+            game.player.inventory.Remove(this);
+            game.selectedItemIndex--;
+            game.PrintInventory();
 
             game.WriteIntoActionText("You used the " + name + ". Your hp is now " + game.player.hp);
             game.PrintPlayerInfo();

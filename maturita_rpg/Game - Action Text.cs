@@ -23,57 +23,7 @@ namespace maturita_rpg
         }
 
         public void WriteIntoActionText(string text)
-        {
-            { /*int textLineCount = 1;
-            if (actionLineIndex + textLineCount > mapBoxHeight)
-            {
-                ActionText.Clear();
-                EraseActionText();
-            }
-            if (text.Length <= ActionTextBoxWidth)
-            {
-                ActionText.Add(text);
-            }
-            else
-            {
-
-                textLineCount = 2;
-                if (actionLineIndex + textLineCount > mapBoxHeight)
-                {
-                    ActionText.Clear();
-                    EraseActionText();
-                }
-                string tmp = "";
-                for (int i = 0; i < ActionTextBoxWidth; i++)
-                {
-                    tmp = tmp + text[i];
-                }
-                ActionText.Add(tmp);
-
-                tmp = "";
-                for (int i = ActionTextBoxWidth ; i < 2 * ActionTextBoxWidth && i < text.Length; i++)
-                {
-                    tmp = tmp + text[i];
-                }
-                ActionText.Add(tmp);
-
-                if (text.Length > ActionTextBoxWidth * 2)
-                {
-                    textLineCount = 3;
-                    if (actionLineIndex + textLineCount > mapBoxHeight)
-                    {
-                        ActionText.Clear();
-                        EraseActionText();
-                    }
-                    tmp = "";
-                    for (int i = 2 * ActionTextBoxWidth; i < 3 * ActionTextBoxWidth && i < text.Length; i++)
-                    {
-                        tmp = tmp + text[i];
-                    }
-                    ActionText.Add(tmp);
-                }
-            }*/
-            } //old 
+        {          
 
             int textLineCount = text.Length / ActionTextBoxWidth;
             if (text.Length % ActionTextBoxWidth != 0)
