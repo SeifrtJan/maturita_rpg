@@ -36,6 +36,10 @@ namespace maturita_rpg
                 {
                     break;
                 }
+                //if (keyPressed.Key == ConsoleKey.Delete)
+                {
+                    //Console.
+                }
 
                 keyPressed = Console.ReadKey(true);
             }

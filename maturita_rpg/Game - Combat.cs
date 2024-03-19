@@ -13,8 +13,9 @@ namespace maturita_rpg
         public void Combat(Enemy enemy)
         {
             WriteIntoActionText("you entered a fight with " + enemy.name);
-
+            enemy.PrintInfo();
             CombatTick(enemy);
+            PrintBorders();
             
         }
 
@@ -25,9 +26,10 @@ namespace maturita_rpg
 
             while (!player.IsDead() && !enemy.IsDead())
             {
-                attacking.TakeTurn(waiting);
-
                 PrintPlayerInfo();
+                enemy.PrintInfo();
+
+                attacking.TakeTurn(waiting);                
 
                 Console.ReadKey(true);
 

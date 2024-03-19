@@ -9,7 +9,7 @@ namespace maturita_rpg
     class Door : GameObject
     {
         public Door twinDoor;
-        public Map entredMap;
+        public Map enteredMap;
 
         public Door(int y, int x) : base(y, x)
         {
@@ -18,7 +18,7 @@ namespace maturita_rpg
 
         public override void TakeEffect(Game game)
         {
-            game.currentMap = entredMap;
+            game.currentMap = enteredMap;
             game.player.y = twinDoor.y;
             game.player.x = twinDoor.x;
 

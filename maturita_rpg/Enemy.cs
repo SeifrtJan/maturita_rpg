@@ -29,5 +29,14 @@ namespace maturita_rpg
             }
             return false;   
         }
+
+        public void PrintInfo()
+        {
+            game.PrintBorders();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition(game.mapOffsetLeft + 1, game.mapOffsetTop - 1);
+            Console.Write("{0} (hp:{1})", name, hp);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 }

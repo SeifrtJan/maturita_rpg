@@ -8,10 +8,10 @@
         public Player player;
 
         //vars for print
-        private int mapBoxWidth;
+        public int mapBoxWidth;
         private int mapBoxHeight;
-        private int mapOffsetLeft;
-        private int mapOffsetTop;
+        public int mapOffsetLeft;
+        public int mapOffsetTop;
         private int playerInfoBoxWidth;
 
         public GameMenu? gameMenu;
@@ -86,17 +86,18 @@
             }
 
             //tutorial
-            tutorialMapDoors[0].entredMap = mazeMap;
+            tutorialMapDoors[0].enteredMap = mazeMap;
             tutorialMapDoors[0].twinDoor = mazeMapDoors[0];
 
             //maze
-            mazeMapDoors[0].entredMap = tutorialMap;
+            mazeMapDoors[0].enteredMap = tutorialMap;
             mazeMapDoors[0].twinDoor = tutorialMapDoors[0];
-            mazeMapDoors[1].entredMap = corridorsMap;
-            mazeMapDoors[1].twinDoor = tutorialMapDoors[0];
+            mazeMapDoors[1].enteredMap = corridorsMap;
+            mazeMapDoors[1].twinDoor = corridorMapDoors[0];
 
             //corridors
-            //corridorMapDoors[0]
+            corridorMapDoors[0].enteredMap = mazeMap;
+            corridorMapDoors[0].twinDoor = mazeMapDoors[1];
 
             
         }
@@ -130,8 +131,6 @@
             mazeMapChests[2].content = new Weapon("Scotty's Knife", "Usually used for cooking", 99);
             mazeMapChests[3].content = new Armor("Leather Tunic", "At least it'll keep you warm.", 20);
             mazeMapChests[4].content = new HealingItem("Villager's Booze", "May cause health issues.", 40);
-            
-            //mazeMapChests[3].content = new HealingItem("potion", "this is a healing potion", 20);
 
 
         }
@@ -149,7 +148,7 @@
                 if (gameObject is EnemyObject)
                     tutorialMapEnemies.Add(gameObject as EnemyObject);
             }
-            tutorialMapEnemies[0].enemy = new Enemy("dummy", 100, 3, 0, this);
+            tutorialMapEnemies[0].enemy = new Enemy("Dummy", 100, 3, 0, this);
 
             //MAZE
             List<EnemyObject> mazeMapEnemies = new List<EnemyObject>();
@@ -304,7 +303,7 @@
 
         }
 
-        private void PrintBorders()
+        public void PrintBorders()
         {
             Console.ForegroundColor = ConsoleColor.Red;            
 

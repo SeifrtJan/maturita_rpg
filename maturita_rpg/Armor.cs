@@ -26,7 +26,7 @@ namespace maturita_rpg
 
         public override void PrintInfo()
         {
-            game.WriteIntoActionText(name + ":" + description + ",arm:" + armor);
+            game.WriteIntoActionText(name + ": " + description + " (" + armor + ").");
         }
     }
 }

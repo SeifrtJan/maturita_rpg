@@ -33,7 +33,7 @@ namespace maturita_rpg
 
         public override void PrintInfo()
         {
-            game.WriteIntoActionText(name + ":" + description);
+            game.WriteIntoActionText(name + ": " + description + " (" + healAmount + ").");
         }
     }
 }
