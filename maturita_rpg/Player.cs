@@ -41,13 +41,19 @@ namespace maturita_rpg
             while (attackDamage == 0)
             {
                 ConsoleKeyInfo keyPressed = Console.ReadKey(intercept: true);
-                if (keyPressed.Key == ConsoleKey.D1)
+                if (keyPressed.Key == ConsoleKey.D1) //normal attack 
                 {
                     attackDamage = totalDamage;
                 }
-                else if (keyPressed.Key == ConsoleKey.D2) // placeholder - jen aby byl nejakej jinej attack
+                else if (keyPressed.Key == ConsoleKey.D2) //special attack - chance for crit
                 {
-                    attackDamage = totalDamage + 100;
+                    hp -= 5;
+                    if (game.rng.Next(4) == 3) //critical
+                    {
+                        attackDamage = totalDamage * (game.rng.Next(25, 50) / 10);
+                    }
+                    else
+                        attackDamage = totalDamage;
                 }
             }        
 
@@ -57,7 +63,7 @@ namespace maturita_rpg
 
         public override void TakeTurn(Character enemy)
         {            
-            game.WriteIntoCombatText("normal => 1, special => 2");
+            game.WriteIntoCombatText("normal => 1, chance for crit (-5 hp) => 2");
 
             enemy.TakeDamage(AttackDamage());
         }

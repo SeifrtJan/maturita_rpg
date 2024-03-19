@@ -13,9 +13,9 @@ namespace maturita_rpg
         public int hp;
         public int damage;
         public int armor;
-        public Game? game;
+        public Game game;
 
-        protected Character(string name, int hp, int damage, int armor, Game? game)
+        protected Character(string name, int hp, int damage, int armor, Game game)
         {
             this.name = name;
             this.hp = hp;
@@ -26,7 +26,7 @@ namespace maturita_rpg
 
         public void TakeDamage(int attackDamage)
         {
-            int damageTaken = attackDamage - armor;
+            int damageTaken = (attackDamage + game.rng.Next(- (attackDamage / 10), attackDamage / 10)) - armor; // rng attack +- 10%
 
             if (damageTaken < 0)
             {

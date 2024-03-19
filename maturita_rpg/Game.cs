@@ -16,6 +16,8 @@
 
         public GameMenu? gameMenu;
 
+        public Random rng;
+
         public Game()
         {
             Initialize();
@@ -57,6 +59,7 @@
         {
             Map tutorialMap = maps[0];
             Map mazeMap = maps[1];
+            Map corridorsMap = maps[2];
 
             //TUTORIAL
             List<Door> tutorialMapDoors = new List<Door>();
@@ -74,13 +77,26 @@
                     mazeMapDoors.Add(gameObject as Door);
             }
 
+            //CORRIDOR
+            List<Door> corridorMapDoors = new List<Door>();
+            foreach (var gameObject in corridorsMap.gameObjects)
+            {
+                if (gameObject is Door)
+                    corridorMapDoors.Add(gameObject as Door);
+            }
+
             //tutorial
             tutorialMapDoors[0].entredMap = mazeMap;
             tutorialMapDoors[0].twinDoor = mazeMapDoors[0];
 
             //maze
             mazeMapDoors[0].entredMap = tutorialMap;
-            mazeMapDoors[0].twinDoor = tutorialMapDoors[0]; 
+            mazeMapDoors[0].twinDoor = tutorialMapDoors[0];
+            mazeMapDoors[1].entredMap = corridorsMap;
+            mazeMapDoors[1].twinDoor = tutorialMapDoors[0];
+
+            //corridors
+            //corridorMapDoors[0]
 
             
         }
@@ -89,6 +105,7 @@
         {
             Map tutorialMap = maps[0];
             Map mazeMap = maps[1];
+            Map corridorsMap = maps[2];
 
             //TUTORIAL
             List<Chest> tutorialMapChests = new List<Chest>();
@@ -123,6 +140,7 @@
         {
             Map tutorialMap = maps[0];
             Map mazeMap = maps[1];
+            Map corridorsMap = maps[2];
 
             //TUTORIAL
             List<EnemyObject> tutorialMapEnemies = new List<EnemyObject>();
@@ -379,7 +397,7 @@
             ActionTextBoxWidth = 26;
 
             //player
-            player = new Player(3, 25, "johny", 100, 10, 0, this); //sets initial player position
+            player = new Player(3, 25, "Player", 100, 10, 0, this); //sets initial player position
 
             //inventory
             inventoryEscape = false;
@@ -394,6 +412,8 @@
             combatLineIndex = 0;
 
             gameMenu = new GameMenu();
+
+            rng = new Random();
         }
 
         private void StartConfig()
@@ -406,6 +426,8 @@
 
             LoadMap("../../../\\maps\\tutorial.txt");
             LoadMap("../../../\\maps\\maze.txt");
+            LoadMap("../../../\\maps\\corridors.txt");
+
             currentMap = maps[0];
 
             ConfigDoors();
