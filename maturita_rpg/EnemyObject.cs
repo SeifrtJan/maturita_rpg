@@ -16,6 +16,7 @@ namespace maturita_rpg
 
         public override void TakeEffect(Game game)
         {
+            game.EraseCombatText();
             if (enemy.hp > 0)
             {
                 game.Combat(enemy);

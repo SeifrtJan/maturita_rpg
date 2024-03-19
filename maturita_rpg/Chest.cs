@@ -17,13 +17,14 @@ namespace maturita_rpg
 
         public override void TakeEffect(Game game)
         {
-            if (this.looted == false)
+            if (looted == false)
             {
                 game.player.inventory.Add(content);
                 content.game = game;
-                game.WriteIntoActionText("You looted a chest and got " + this.content.name);
+                game.WriteIntoActionText("You looted a chest and got " + content.name);
+
                 looted = true;
-                game.currentMap.walls[this.y, this.x].isWall = true;
+                game.currentMap.walls[y, x].isWall = true;
                 game.PrintPlayerInfo();
             }
         }

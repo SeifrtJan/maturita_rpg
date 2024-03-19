@@ -8,14 +8,11 @@ namespace maturita_rpg
 {
     internal partial class Game
     {
-        List<string>? CombatText;
-        int combatLineIndex;
+        public List<string> CombatText;
+        public int combatLineIndex;
         public void Combat(Enemy enemy)
         {
             WriteIntoActionText("you entered a fight with " + enemy.name);
-           /* Console.ForegroundColor = ConsoleColor.Red;
-            WriteIntoCombatText("Fighting " + enemy.name + " (hp:" + enemy.hp + ")");
-            Console.ForegroundColor = ConsoleColor.White;*/
 
             CombatTick(enemy);
             
@@ -95,6 +92,12 @@ namespace maturita_rpg
             }
 
             PrintCombatText();
+        }
+
+        public void EraseCombatText()
+        {
+            CombatText.Clear();
+            combatLineIndex = 0;
         }
     }
 }

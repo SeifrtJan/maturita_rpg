@@ -97,9 +97,24 @@
                 if (gameObject is Chest)
                     tutorialMapChests.Add(gameObject as Chest);
             }
-            tutorialMapChests[0].content = new Weapon("weapon", "this is a weapon", 50);
-            tutorialMapChests[1].content = new Armor("armor", "this is a piece of armor", 20);
-            tutorialMapChests[2].content = new HealingItem("potion", "this is a healing potion", 20);
+            tutorialMapChests[0].content = new Weapon("Weapon", "These make your attacks stronger.", 10);
+            tutorialMapChests[1].content = new Armor("Armor", "These make you more resilient against attacks.", 2);
+            tutorialMapChests[2].content = new HealingItem("Potion", "These regenerate your health", 20);
+
+            //MAZE
+            List<Chest> mazeMapChests = new List<Chest>();
+            foreach (var gameObject in mazeMap.gameObjects)
+            {
+                if (gameObject is Chest)
+                    mazeMapChests.Add(gameObject as Chest);
+            }
+            mazeMapChests[0].content = new Weapon("Stick", "Better than nothing!", 15);
+            mazeMapChests[1].content = new HealingItem("Healing Soup", "Very yummy!", 35);
+            mazeMapChests[2].content = new Weapon("Scotty's Knife", "Usually used for cooking", 99);
+            mazeMapChests[3].content = new Armor("Leather Tunic", "At least it'll keep you warm.", 20);
+            mazeMapChests[4].content = new HealingItem("Villager's Booze", "May cause health issues.", 40);
+            
+            //mazeMapChests[3].content = new HealingItem("potion", "this is a healing potion", 20);
 
 
         }
@@ -116,7 +131,18 @@
                 if (gameObject is EnemyObject)
                     tutorialMapEnemies.Add(gameObject as EnemyObject);
             }
-            tutorialMapEnemies[0].enemy = new Enemy("dummy", 200, 3, 0, this);
+            tutorialMapEnemies[0].enemy = new Enemy("dummy", 100, 3, 0, this);
+
+            //MAZE
+            List<EnemyObject> mazeMapEnemies = new List<EnemyObject>();
+            foreach (var gameObject in mazeMap.gameObjects)
+            {
+                if (gameObject is EnemyObject)
+                    mazeMapEnemies.Add(gameObject as EnemyObject);
+            }
+            mazeMapEnemies[0].enemy = new Enemy("Bandit", 100, 20, 3, this);
+            mazeMapEnemies[1].enemy = new Enemy("Lil Scotty", 500, 100, 25, this);
+            mazeMapEnemies[2].enemy = new Enemy("Angry Villager", 200, 23, 10, this);
 
 
         }
@@ -192,19 +218,19 @@
             //movement 2.0
             {
                 Coord move = new Coord(0, 0, false);
-                if (keyPressed.Key == ConsoleKey.UpArrow)
+                if (keyPressed.Key == ConsoleKey.UpArrow || keyPressed.Key == ConsoleKey.W)
                 {
                     move.y--;
                 }
-                else if (keyPressed.Key == ConsoleKey.DownArrow)
+                else if (keyPressed.Key == ConsoleKey.DownArrow || keyPressed.Key == ConsoleKey.S)
                 {
                     move.y++;
                 }
-                else if (keyPressed.Key == ConsoleKey.LeftArrow)
+                else if (keyPressed.Key == ConsoleKey.LeftArrow || keyPressed.Key == ConsoleKey.A)
                 {
                     move.x--;
                 }
-                else if (keyPressed.Key == ConsoleKey.RightArrow)
+                else if (keyPressed.Key == ConsoleKey.RightArrow || keyPressed.Key == ConsoleKey.D)
                 {
                     move.x++;
                 }

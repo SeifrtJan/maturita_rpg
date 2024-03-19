@@ -17,9 +17,14 @@ namespace maturita_rpg
 
         public override void Equip()
         {
-            game.player.hp = game.player.hp + healAmount;
+            if (game.player.hp + healAmount > game.player.maxHP)
+                game.player.hp = game.player.maxHP;
+            else
+                game.player.hp = game.player.hp + healAmount;
+
             game.player.inventory.Remove(this);
-            game.selectedItemIndex--;
+
+            game.selectedItemIndex = 0;
             game.PrintInventory();
 
             game.WriteIntoActionText("You used the " + name + ". Your hp is now " + game.player.hp);

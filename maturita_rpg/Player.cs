@@ -14,6 +14,7 @@ namespace maturita_rpg
         public List<Item> inventory;
         public Weapon equipedWeapon;
         public Armor equipedArmor;
+        public int maxHP;
 
         public Player(int y, int x, string name, int hp, int damage, int armor, Game game) : base(name, hp, damage, armor, game)
         {
@@ -24,6 +25,7 @@ namespace maturita_rpg
             equipedWeapon = new Weapon("none", "", 0);
             this.damage = 10;
             totalDamage = damage;
+            maxHP = hp;
         }
 
         public void UpdateStats()
