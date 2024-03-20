@@ -19,7 +19,7 @@ namespace maturita_rpg
         public void EndMenu()
         {
             Console.Clear();
-            PrintInTheCenter(new List<string> { "YOU DIED!" , " " , "press any key to play again"});
+            PrintInTheCenter(new List<string> { "YOWZA! You died :(" , " " , "press any key to play again"});
             Console.ReadKey(true);
             Console.Clear();
         }

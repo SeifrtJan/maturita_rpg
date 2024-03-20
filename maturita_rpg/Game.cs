@@ -60,6 +60,7 @@
             Map tutorialMap = maps[0];
             Map mazeMap = maps[1];
             Map corridorsMap = maps[2];
+            Map roomsMap = maps[3];
 
             //TUTORIAL
             List<Door> tutorialMapDoors = new List<Door>();
@@ -85,6 +86,14 @@
                     corridorMapDoors.Add(gameObject as Door);
             }
 
+            //ROOMS
+            List<Door> roomsMapDoors = new List<Door>();
+            foreach (var gameObject in roomsMap.gameObjects)
+            {
+                if (gameObject is Door)
+                    roomsMapDoors.Add(gameObject as Door);
+            }
+
             //tutorial
             tutorialMapDoors[0].enteredMap = mazeMap;
             tutorialMapDoors[0].twinDoor = mazeMapDoors[0];
@@ -98,8 +107,22 @@
             //corridors
             corridorMapDoors[0].enteredMap = mazeMap;
             corridorMapDoors[0].twinDoor = mazeMapDoors[1];
+            corridorMapDoors[1].enteredMap = roomsMap;
+            corridorMapDoors[1].twinDoor = roomsMapDoors[4];
+            corridorMapDoors[2].enteredMap = roomsMap;
+            corridorMapDoors[2].twinDoor = roomsMapDoors[2];
 
-            
+            //rooms
+            roomsMapDoors[0].enteredMap = corridorsMap;
+            roomsMapDoors[0].twinDoor = corridorMapDoors[0];
+            roomsMapDoors[1].enteredMap = corridorsMap;
+            roomsMapDoors[1].twinDoor = corridorMapDoors[0];
+            roomsMapDoors[2].enteredMap = corridorsMap;
+            roomsMapDoors[2].twinDoor = corridorMapDoors[2];
+            roomsMapDoors[3].enteredMap = corridorsMap;
+            roomsMapDoors[3].twinDoor = corridorMapDoors[0];
+            roomsMapDoors[4].enteredMap = corridorsMap;
+            roomsMapDoors[4].twinDoor = corridorMapDoors[1];
         }
 
         private void ConfigChests() 
@@ -107,6 +130,7 @@
             Map tutorialMap = maps[0];
             Map mazeMap = maps[1];
             Map corridorsMap = maps[2];
+            Map roomsMap = maps[3];
 
             //TUTORIAL
             List<Chest> tutorialMapChests = new List<Chest>();
@@ -126,12 +150,35 @@
                 if (gameObject is Chest)
                     mazeMapChests.Add(gameObject as Chest);
             }
-            mazeMapChests[0].content = new Weapon("Stick", "Better than nothing!", 15);
+            mazeMapChests[0].content = new Weapon("Stick", "Better than nothing!", 1500);
             mazeMapChests[1].content = new HealingItem("Healing Soup", "Very yummy!", 35);
-            mazeMapChests[2].content = new Weapon("Scotty's Knife", "Usually used for cooking", 99);
+            mazeMapChests[2].content = new Weapon("Scotty's Knife", "Usually used for cooking", 199);
             mazeMapChests[3].content = new Armor("Leather Tunic", "At least it'll keep you warm.", 20);
-            mazeMapChests[4].content = new HealingItem("Villager's Booze", "May cause health issues.", 40);
+            mazeMapChests[4].content = new HealingItem("Villager's Flask", "Drinking this may cause health issues.", 40);
 
+            //CORRIDORS
+            List<Chest> corridorsMapChests = new List<Chest>();
+            foreach (var gameObject in corridorsMap.gameObjects)
+            {
+                if (gameObject is Chest)
+                    corridorsMapChests.Add(gameObject as Chest);
+            }
+            corridorsMapChests[0].content = new HealingItem("Healing Potion", "Brewed in your local brewery!", 20);
+            corridorsMapChests[1].content = new Weapon("Giants Boulder", "Crushes anything in its way.", 70);
+            corridorsMapChests[2].content = new Armor("Giants Shirt", "Fits 8 players", 60);
+            corridorsMapChests[3].content = new Weapon("Stick2", "Better luck next time.", 16);
+
+            //ROOMS
+            List<Chest> roomsMapChests = new List<Chest>();
+            foreach (var gameObject in roomsMap.gameObjects)
+            {
+                if (gameObject is Chest)
+                    roomsMapChests.Add(gameObject as Chest);
+            }
+            roomsMapChests[0].content = new Weapon("Baseball bat", "Can be deadly.", 20);
+            roomsMapChests[1].content = new Weapon("Pencil", "Very sharp!", 80);
+            roomsMapChests[2].content = new HealingItem("Medics Bag", "Everything you need to heal your wounds.", 100);
+            roomsMapChests[3].content = new Armor("Chainmail Pants", "More comfy than you'd think!", 35);
 
         }
 
@@ -140,6 +187,7 @@
             Map tutorialMap = maps[0];
             Map mazeMap = maps[1];
             Map corridorsMap = maps[2];
+            Map roomsMap = maps[3];
 
             //TUTORIAL
             List<EnemyObject> tutorialMapEnemies = new List<EnemyObject>();
@@ -159,9 +207,30 @@
             }
             mazeMapEnemies[0].enemy = new Enemy("Bandit", 100, 20, 3, this);
             mazeMapEnemies[1].enemy = new Enemy("Lil Scotty", 500, 100, 25, this);
-            mazeMapEnemies[2].enemy = new Enemy("Angry Villager", 200, 23, 10, this);
+            mazeMapEnemies[2].enemy = new Enemy("Angry Villager", 200, 30, 10, this);
 
+            //CORRIDORS
+            List<EnemyObject> corridorsMapEnemies = new List<EnemyObject>();
+            foreach (var gameObject in corridorsMap.gameObjects)
+            {
+                if (gameObject is EnemyObject)
+                    corridorsMapEnemies.Add(gameObject as EnemyObject);
+            }
+            corridorsMapEnemies[0].enemy = new Enemy("Giant", 1000, 20, 10, this);
+            corridorsMapEnemies[1].enemy = new Enemy("You shall not pass!", 600, 80, 60, this);
+            corridorsMapEnemies[2].enemy = new Enemy("Spy", 111, 200, 0, this);
 
+            //Rooms
+            List<EnemyObject> roomsMapEnemies = new List<EnemyObject>();
+            foreach (var gameObject in roomsMap.gameObjects)
+            {
+                if (gameObject is EnemyObject)
+                    roomsMapEnemies.Add(gameObject as EnemyObject);
+            }
+            roomsMapEnemies[0].enemy = new Enemy("Guard", 167, 40, 20, this);
+            roomsMapEnemies[1].enemy = new Enemy("Assassin", 100, 150, 0, this);
+            roomsMapEnemies[2].enemy = new Enemy("Guard", 200, 30, 10, this);
+            roomsMapEnemies[3].enemy = new Enemy("Guard", 400, 40, 30, this);
         }
       
 
@@ -426,6 +495,7 @@
             LoadMap("../../../\\maps\\tutorial.txt");
             LoadMap("../../../\\maps\\maze.txt");
             LoadMap("../../../\\maps\\corridors.txt");
+            LoadMap("../../../\\maps\\rooms.txt");
 
             currentMap = maps[0];
 
