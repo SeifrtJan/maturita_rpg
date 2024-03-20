@@ -11,7 +11,7 @@ namespace maturita_rpg
     {
         public void StartMenu()
         {
-            PrintInTheCenter("PRESS ANY KEY TO PLAY");
+            PrintInTheCenter(new List<string> { "PRESS ANY KEY TO PLAY" });
             Console.ReadKey(true);
             Console.Clear();
         }
@@ -19,7 +19,7 @@ namespace maturita_rpg
         public void EndMenu()
         {
             Console.Clear();
-            PrintInTheCenter("YOU DIED!");
+            PrintInTheCenter(new List<string> { "YOU DIED!" , " " , "press any key to play again"});
             Console.ReadKey(true);
             Console.Clear();
         }
@@ -27,7 +27,7 @@ namespace maturita_rpg
         public void PauseMenu()
         {
             Console.Clear();
-            PrintInTheCenter("game paused - press esc to continue");
+            PrintInTheCenter(new List<string>() { "GAME PAUSED", " ", "press esc to continue", "press delete to close the app" });
 
             ConsoleKeyInfo keyPressed = Console.ReadKey(true);
             while (true)
@@ -36,9 +36,9 @@ namespace maturita_rpg
                 {
                     break;
                 }
-                //if (keyPressed.Key == ConsoleKey.Delete)
+                if (keyPressed.Key == ConsoleKey.Delete)
                 {
-                    //Console.
+                    Environment.Exit(0);
                 }
 
                 keyPressed = Console.ReadKey(true);
@@ -46,10 +46,13 @@ namespace maturita_rpg
             Console.Clear();
         }
         
-        private void PrintInTheCenter(string text)
+        private void PrintInTheCenter(List<string> text)
         {
-            Console.SetCursorPosition((Console.WindowWidth - text.Length) / 2, Console.WindowHeight / 2);
-            Console.WriteLine(text);
+            foreach (var line in text)
+            {
+                Console.SetCursorPosition((Console.WindowWidth - line.Length) / 2, (Console.WindowHeight - text.Count) / 2 + text.IndexOf(line));
+                Console.Write(line);
+            }
         }
     }
 }
