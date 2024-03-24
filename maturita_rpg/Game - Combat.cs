@@ -15,8 +15,7 @@ namespace maturita_rpg
             WriteIntoActionText("you entered a fight with " + enemy.name);
             enemy.PrintInfo();
             CombatTick(enemy);
-            PrintPlayerInfo();
-            PrintBorders();
+            RefreshPrint();
             
         }
 

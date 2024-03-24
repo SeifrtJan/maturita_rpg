@@ -419,17 +419,16 @@
                         InventoryTick();
                     }
                     inventoryEscape = false;
-                }                
+                }
             }
             else if (keyPressed.Key == ConsoleKey.Escape)
             {
                 gameMenu.PauseMenu();
 
-                actionLineIndex = 0;
-                PrintActionText();
-                PrintBorders();
-                PrintPlayerInfo();
+                RefreshPrint();
             }
+            else if (keyPressed.Key == ConsoleKey.F5)
+                RefreshPrint();
 
         }
 
@@ -582,9 +581,7 @@
             ConfigChests();
             ConfigEnemies();
 
-            PrintBorders();
-            PrintCurrentArea();
-            PrintPlayerInfo();
+            RefreshPrint();
         }
 
         public void GameLogic()
@@ -599,6 +596,16 @@
                 gameMenu.WinMenu();
             else
                 gameMenu.EndMenu();
+        }
+
+        public void RefreshPrint()
+        {
+            Console.Clear();
+            PrintBorders();
+            PrintCurrentArea();
+            actionLineIndex = 0;
+            PrintActionText();
+            PrintPlayerInfo();
         }
 
     }  

@@ -90,7 +90,7 @@ namespace maturita_rpg
             for (int y = 0; y < mapBoxHeight; y++)
             {
                 Console.SetCursorPosition(0, mapOffsetTop + y);
-                for (int x = 0; x < playerInfoBoxWidth; x++) // ta sirka je hodne makeshift.
+                for (int x = 0; x < playerInfoBoxWidth; x++)
                 {
                     Console.Write(" ");
                 }
@@ -100,6 +100,7 @@ namespace maturita_rpg
         public void PrintPlayerInfo()
         {
             ErasePlayerInfoBox();
+            player.UpdateStats();
             Console.SetCursorPosition(0, mapOffsetTop);
             Console.WriteLine("PLAYER INFO");
             Console.WriteLine("HP: " + player.hp);
