@@ -194,9 +194,10 @@
                     corridorsMapChests.Add(gameObject as Chest);
             }
             corridorsMapChests[0].content = new HealingItem("Healing Potion", "Brewed in your local brewery!", 40);
-            corridorsMapChests[1].content = new Weapon("Giants Boulder", "Crushes anything in its way.", 70);
+            corridorsMapChests[1].content = new Weapon("Giants Boulder", "Crushes anything in its way.", 90);
             corridorsMapChests[2].content = new Armor("Giants Shirt", "Fits 8 players", 60);
-            corridorsMapChests[3].content = new Weapon("Stick2", "Better luck next time.", 16);
+            corridorsMapChests[3].content = new HealingItem("Apple", "An apple a day, keeps the doctor away!", 50);
+            corridorsMapChests[4].content = new Weapon("Stick2", "Better luck next time.", 16);
 
             //ROOMS
             List<Chest> roomsMapChests = new List<Chest>();
@@ -217,8 +218,8 @@
                 if (gameObject is Chest)
                     finalMapChests.Add(gameObject as Chest);
             }
-            finalMapChests[0].content = new HealingItem("Cookie", "Baked by Little Scotty.", 10);
-            finalMapChests[1].content = new HealingItem("Last Supper", "Might be the last thing you ever eat.", 30);            
+            finalMapChests[0].content = new HealingItem("Cookie", "Baked by Little Scotty.", 50);
+            finalMapChests[1].content = new HealingItem("Last Supper", "Might be the last thing you ever eat.", 80);            
         }
 
         private void ConfigEnemies()
@@ -246,7 +247,7 @@
                     mazeMapEnemies.Add(gameObject as EnemyObject);
             }
             mazeMapEnemies[0].enemy = new Enemy("Bandit", 100, 20, 3, this);
-            mazeMapEnemies[1].enemy = new Enemy("Lil Scotty", 500, 100, 25, this);
+            mazeMapEnemies[1].enemy = new Enemy("Lil Scotty", 400, 90, 25, this);
             mazeMapEnemies[2].enemy = new Enemy("Angry Villager", 200, 30, 10, this);
 
             //CORRIDORS
@@ -267,8 +268,8 @@
                 if (gameObject is EnemyObject)
                     roomsMapEnemies.Add(gameObject as EnemyObject);
             }
-            roomsMapEnemies[0].enemy = new Enemy("Guard", 167, 40, 20, this);
-            roomsMapEnemies[1].enemy = new Enemy("Assassin", 100, 150, 0, this);
+            roomsMapEnemies[0].enemy = new Enemy("Guard", 167, 35, 10, this);
+            roomsMapEnemies[1].enemy = new Enemy("Assassin", 70, 150, 0, this);
             roomsMapEnemies[2].enemy = new Enemy("Guard", 200, 30, 10, this);
             roomsMapEnemies[3].enemy = new Enemy("Guard", 400, 40, 30, this);
 
@@ -279,11 +280,11 @@
                 if (gameObject is EnemyObject)
                     finalMapEnemies.Add(gameObject as EnemyObject);
             }
-            finalMapEnemies[0].enemy = new Enemy("Dark Knight", 400, 50, 40, this);
-            finalMapEnemies[1].enemy = new Enemy("Skeleton", 200, 50, 10, this);
-            finalMapEnemies[2].enemy = new Enemy("Bosses secretary", 200, 150, 20, this);
-            finalMapEnemies[3].enemy = new Enemy("Ghost", 300, 30, 30, this);
-            finalMapEnemies[4].enemy = new Enemy("FINAL BOSS", 1500, 80, 40, this);
+            finalMapEnemies[0].enemy = new Enemy("Dark Knight", 400, 100, 40, this);
+            finalMapEnemies[1].enemy = new Enemy("Skeleton", 200, 80, 10, this);
+            finalMapEnemies[2].enemy = new Enemy("Bosses PA", 200, 150, 20, this);
+            finalMapEnemies[3].enemy = new Enemy("Ghost", 300, 70, 60, this);
+            finalMapEnemies[4].enemy = new Enemy("FINAL BOSS", 1500, 90, 40, this);
         }
       
 
@@ -574,6 +575,7 @@
                 currentMap = maps[1];
                 player.x = 5;
                 player.y = 5;
+
             }
 
             ConfigDoors();

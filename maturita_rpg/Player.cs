@@ -50,7 +50,7 @@ namespace maturita_rpg
                     hp -= 5;
                     if (game.rng.Next(4) == 3) //critical
                     {
-                        attackDamage = totalDamage * (game.rng.Next(25, 50) / 10);
+                        attackDamage = totalDamage * (game.rng.Next(25, 60) / 10);
                     }
                     else
                         attackDamage = totalDamage;
