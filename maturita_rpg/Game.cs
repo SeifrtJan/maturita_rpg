@@ -180,7 +180,7 @@
                 if (gameObject is Chest)
                     mazeMapChests.Add(gameObject as Chest);
             }
-            mazeMapChests[0].content = new Weapon("Stick", "Better than nothing!", 1500);
+            mazeMapChests[0].content = new Weapon("Stick", "Better than nothing!", 20);
             mazeMapChests[1].content = new HealingItem("Healing Soup", "Very yummy!", 35);
             mazeMapChests[2].content = new Weapon("Scotty's Knife", "Usually used for cooking", 199);
             mazeMapChests[3].content = new Armor("Leather Tunic", "At least it'll keep you warm.", 20);
@@ -193,7 +193,7 @@
                 if (gameObject is Chest)
                     corridorsMapChests.Add(gameObject as Chest);
             }
-            corridorsMapChests[0].content = new HealingItem("Healing Potion", "Brewed in your local brewery!", 20);
+            corridorsMapChests[0].content = new HealingItem("Healing Potion", "Brewed in your local brewery!", 40);
             corridorsMapChests[1].content = new Weapon("Giants Boulder", "Crushes anything in its way.", 70);
             corridorsMapChests[2].content = new Armor("Giants Shirt", "Fits 8 players", 60);
             corridorsMapChests[3].content = new Weapon("Stick2", "Better luck next time.", 16);
@@ -205,7 +205,7 @@
                 if (gameObject is Chest)
                     roomsMapChests.Add(gameObject as Chest);
             }
-            roomsMapChests[0].content = new Weapon("Baseball bat", "Can be deadly.", 20);
+            roomsMapChests[0].content = new Weapon("Baseball bat", "Can be deadly.", 35);
             roomsMapChests[1].content = new Weapon("Pencil", "Very sharp!", 80);
             roomsMapChests[2].content = new HealingItem("Medics Bag", "Everything you need to heal your wounds.", 100);
             roomsMapChests[3].content = new Armor("Chainmail Pants", "More comfy than you'd think!", 35);
@@ -256,7 +256,7 @@
                 if (gameObject is EnemyObject)
                     corridorsMapEnemies.Add(gameObject as EnemyObject);
             }
-            corridorsMapEnemies[0].enemy = new Enemy("Giant", 1000, 20, 10, this);
+            corridorsMapEnemies[0].enemy = new Enemy("Giant", 1000, 40, 10, this);
             corridorsMapEnemies[1].enemy = new Enemy("You shall not pass!", 600, 80, 60, this);
             corridorsMapEnemies[2].enemy = new Enemy("Spy", 111, 200, 0, this);
 
