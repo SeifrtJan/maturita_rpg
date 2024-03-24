@@ -10,7 +10,7 @@ namespace maturita_rpg
     {
         public List<string>? ActionText;
         public int ActionTextBoxWidth;
-        int actionLineIndex;
+        public int actionLineIndex;
 
         public void PrintActionText()
         {

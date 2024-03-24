@@ -18,8 +18,12 @@
 
         public Random rng;
 
+        private bool tutorialPlayed;
+        public bool gameWon;
+
         public Game()
         {
+            tutorialPlayed = false;
             Initialize();
         }
 
@@ -32,7 +36,7 @@
             {
                 for (int x = 0; x < lines[y].Length; x++)
                 {
-                    maps[maps.Count -1].walls[y, x] = new Coord(y, x, lines[y][x] == '#' || lines[y][x] == 'x');
+                    maps[maps.Count -1].walls[y, x] = new Coord(y, x, lines[y][x] == '#' || lines[y][x] == 'x', lines[y][x] == 'x');
 
                     //objects
                     switch (lines[y][x])
@@ -48,6 +52,10 @@
                         case '§':
                             maps[maps.Count - 1].gameObjects.Add(new EnemyObject(y, x));
                             break;
+
+                        case 'W':
+                            maps[maps.Count - 1].gameObjects.Add(new WinObject(y, x));
+                            break;
                     }
 
                 }                
@@ -61,6 +69,7 @@
             Map mazeMap = maps[1];
             Map corridorsMap = maps[2];
             Map roomsMap = maps[3];
+            Map finalMap = maps[4];
 
             //TUTORIAL
             List<Door> tutorialMapDoors = new List<Door>();
@@ -94,11 +103,21 @@
                     roomsMapDoors.Add(gameObject as Door);
             }
 
+            //FINAL 
+            List<Door> finalMapDoors = new List<Door>();
+            foreach (var gameObject in finalMap.gameObjects)
+            {
+                if (gameObject is Door)
+                    finalMapDoors.Add(gameObject as Door);
+            }
+
             //tutorial
             tutorialMapDoors[0].enteredMap = mazeMap;
             tutorialMapDoors[0].twinDoor = mazeMapDoors[0];
 
             //maze
+            mazeMap.walls[mazeMapDoors[0].y, mazeMapDoors[0].x].isWall = true;//so that you cant return to tutorial
+
             mazeMapDoors[0].enteredMap = tutorialMap;
             mazeMapDoors[0].twinDoor = tutorialMapDoors[0];
             mazeMapDoors[1].enteredMap = corridorsMap;
@@ -111,6 +130,10 @@
             corridorMapDoors[1].twinDoor = roomsMapDoors[4];
             corridorMapDoors[2].enteredMap = roomsMap;
             corridorMapDoors[2].twinDoor = roomsMapDoors[2];
+            corridorMapDoors[3].enteredMap = finalMap;
+            corridorMapDoors[3].twinDoor = finalMapDoors[0];
+            corridorMapDoors[4].enteredMap = finalMap;
+            corridorMapDoors[4].twinDoor = finalMapDoors[1];
 
             //rooms
             roomsMapDoors[0].enteredMap = corridorsMap;
@@ -123,6 +146,12 @@
             roomsMapDoors[3].twinDoor = corridorMapDoors[0];
             roomsMapDoors[4].enteredMap = corridorsMap;
             roomsMapDoors[4].twinDoor = corridorMapDoors[1];
+
+            //final
+            finalMapDoors[0].enteredMap = corridorsMap;
+            finalMapDoors[0].twinDoor = corridorMapDoors[3];
+            finalMapDoors[1].enteredMap = corridorsMap;
+            finalMapDoors[1].twinDoor = corridorMapDoors[4];
         }
 
         private void ConfigChests() 
@@ -131,6 +160,7 @@
             Map mazeMap = maps[1];
             Map corridorsMap = maps[2];
             Map roomsMap = maps[3];
+            Map finalMap = maps[4];
 
             //TUTORIAL
             List<Chest> tutorialMapChests = new List<Chest>();
@@ -180,6 +210,15 @@
             roomsMapChests[2].content = new HealingItem("Medics Bag", "Everything you need to heal your wounds.", 100);
             roomsMapChests[3].content = new Armor("Chainmail Pants", "More comfy than you'd think!", 35);
 
+            //FINAL
+            List<Chest> finalMapChests = new List<Chest>();
+            foreach (var gameObject in finalMap.gameObjects)
+            {
+                if (gameObject is Chest)
+                    finalMapChests.Add(gameObject as Chest);
+            }
+            finalMapChests[0].content = new HealingItem("Cookie", "Baked by Little Scotty.", 10);
+            finalMapChests[1].content = new HealingItem("Last Supper", "Might be the last thing you ever eat.", 30);            
         }
 
         private void ConfigEnemies()
@@ -188,6 +227,7 @@
             Map mazeMap = maps[1];
             Map corridorsMap = maps[2];
             Map roomsMap = maps[3];
+            Map finalMap = maps[4];
 
             //TUTORIAL
             List<EnemyObject> tutorialMapEnemies = new List<EnemyObject>();
@@ -231,6 +271,19 @@
             roomsMapEnemies[1].enemy = new Enemy("Assassin", 100, 150, 0, this);
             roomsMapEnemies[2].enemy = new Enemy("Guard", 200, 30, 10, this);
             roomsMapEnemies[3].enemy = new Enemy("Guard", 400, 40, 30, this);
+
+            //FINAL
+            List<EnemyObject> finalMapEnemies = new List<EnemyObject>();
+            foreach (var gameObject in finalMap.gameObjects)
+            {
+                if (gameObject is EnemyObject)
+                    finalMapEnemies.Add(gameObject as EnemyObject);
+            }
+            finalMapEnemies[0].enemy = new Enemy("Dark Knight", 400, 50, 40, this);
+            finalMapEnemies[1].enemy = new Enemy("Skeleton", 200, 50, 10, this);
+            finalMapEnemies[2].enemy = new Enemy("Bosses secretary", 200, 150, 20, this);
+            finalMapEnemies[3].enemy = new Enemy("Ghost", 300, 30, 30, this);
+            finalMapEnemies[4].enemy = new Enemy("FINAL BOSS", 1500, 80, 40, this);
         }
       
 
@@ -243,14 +296,18 @@
             {
                 for (int x = 0; x < mapBoxWidth; x++)
                 {
-                    if (currentMap.walls[topLeftCornerShown.y + y, topLeftCornerShown.x + x].isWall == true)
+                    if (currentMap.walls[topLeftCornerShown.y + y, topLeftCornerShown.x + x].isDeadSpace)
+                    {
+                        SymbolsToPrint[y, x] = ' ';
+                    }
+                    else if (currentMap.walls[topLeftCornerShown.y + y, topLeftCornerShown.x + x].isWall)
                     {
                         SymbolsToPrint[y, x] = '#';
                     }
                     else if (topLeftCornerShown.y + y == player.y && topLeftCornerShown.x + x == player.x)
                     {
                         SymbolsToPrint[y, x] = '@';
-                    }
+                    }                    
                     else
                     {
                         SymbolsToPrint[y, x] = '.';
@@ -259,7 +316,9 @@
                     foreach (GameObject gameObject in currentMap.gameObjects)
                     {
                         if (topLeftCornerShown.y + y == gameObject.y && topLeftCornerShown.x + x == gameObject.x)
+                        {
                             SymbolsToPrint[y, x] = gameObject.charToPrint;
+                        }
                     }
                 }
             }
@@ -291,9 +350,9 @@
 
         public void Tick()
         {            
-            this.HandleKeyInput();
-            this.PrintCurrentArea();
-            this.CheckForCollisions();
+            HandleKeyInput();
+            PrintCurrentArea();
+            CheckForCollisions();
         }
 
 
@@ -303,7 +362,7 @@
             
             //movement 2.0
             {
-                Coord move = new Coord(0, 0, false);
+                Coord move = new Coord(0, 0, false, false);
                 if (keyPressed.Key == ConsoleKey.UpArrow || keyPressed.Key == ConsoleKey.W)
                 {
                     move.y--;
@@ -365,7 +424,8 @@
             {
                 gameMenu.PauseMenu();
 
-                
+                actionLineIndex = 0;
+                PrintActionText();
                 PrintBorders();
                 PrintPlayerInfo();
             }
@@ -454,7 +514,7 @@
         {
             //map
             maps = new List<Map>();          
-            topLeftCornerShown = new Coord(0, 0, true); //sets initial view
+            topLeftCornerShown = new Coord(0, 0, true, true); //sets initial view
             mapOffsetLeft = 25;
             mapOffsetTop = 5;
 
@@ -482,9 +542,11 @@
             gameMenu = new GameMenu();
 
             rng = new Random();
+
+            gameWon = false;
         }
 
-        private void StartConfig()
+        private void StartGame()
         {
             Console.CursorVisible = false;
             Console.SetWindowSize(playerInfoBoxWidth + mapBoxWidth + ActionTextBoxWidth + 3, mapBoxHeight + 10);
@@ -496,8 +558,23 @@
             LoadMap("../../../\\maps\\maze.txt");
             LoadMap("../../../\\maps\\corridors.txt");
             LoadMap("../../../\\maps\\rooms.txt");
+            LoadMap("../../../\\maps\\final.txt");
 
-            currentMap = maps[0];
+            //player plays tutorial only once
+            if (tutorialPlayed == false)
+            {
+                currentMap = maps[0];
+                tutorialPlayed = true;
+
+                gameMenu.TutorialMenu();
+                WriteIntoActionText("This level is the TUTORIAL");
+            }
+            else
+            {
+                currentMap = maps[1];
+                player.x = 5;
+                player.y = 5;
+            }
 
             ConfigDoors();
             ConfigChests();
@@ -511,12 +588,15 @@
         public void GameLogic()
         {
             Initialize();
-            StartConfig();
-            while (!player.IsDead())
+            StartGame();
+            while (!player.IsDead() && !gameWon)
             {
                 Tick();
             }
-            gameMenu.EndMenu();
+            if (gameWon)
+                gameMenu.WinMenu();
+            else
+                gameMenu.EndMenu();
         }
 
     }  
