@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace maturita_rpg
 {
-    internal class Coord
+    class Coord
     {
         public int y;
         public int x;

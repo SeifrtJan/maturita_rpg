@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace maturita_rpg
+﻿namespace maturita_rpg
 {
-    internal class EnemyObject : GameObject
+    class EnemyObject : GameObject
     {
         public Enemy? enemy;
         public EnemyObject(int y, int x) : base(y, x)
@@ -16,7 +10,6 @@ namespace maturita_rpg
 
         public override void TakeEffect(Game game)
         {
-            game.EraseCombatText();
             if (enemy.hp > 0)
             {
                 game.Combat(enemy);

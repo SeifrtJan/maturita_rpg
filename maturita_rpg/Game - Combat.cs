@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace maturita_rpg
+﻿namespace maturita_rpg
 {
-    internal partial class Game
+    partial class Game
     {
         public List<string> CombatText;
         public int combatLineIndex;
         public void Combat(Enemy enemy)
         {
+            EraseCombatText();
             WriteIntoActionText("you entered a fight with " + enemy.name);
             enemy.PrintInfo();
             CombatTick(enemy);

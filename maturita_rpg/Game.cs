@@ -1,6 +1,6 @@
 ﻿namespace maturita_rpg
 {
-    internal partial class Game
+    partial class Game
     {
         public List<Map>? maps;
         public Map? currentMap;
@@ -356,76 +356,92 @@
 
         private void HandleKeyInput()
         {
-            ConsoleKeyInfo keyPressed = Console.ReadKey(intercept: true); 
+            ConsoleKeyInfo keyPressed = Console.ReadKey(intercept: true);
+            switch (keyPressed.Key)
+            {
+                case ConsoleKey.W:
+                case ConsoleKey.A:
+                case ConsoleKey.S:
+                case ConsoleKey.D:
+                case ConsoleKey.UpArrow:
+                case ConsoleKey.DownArrow:
+                case ConsoleKey.LeftArrow:
+                case ConsoleKey.RightArrow:
+                    //movement 2.0
+                    {
+                        Coord move = new Coord(0, 0, false, false);
+                        if (keyPressed.Key == ConsoleKey.UpArrow || keyPressed.Key == ConsoleKey.W) //pohyb nahoru
+                        {
+                            move.y--;
+                        }
+                        else if (keyPressed.Key == ConsoleKey.DownArrow || keyPressed.Key == ConsoleKey.S) //pohyb dolů 
+                        {
+                            move.y++;
+                        }
+                        else if (keyPressed.Key == ConsoleKey.LeftArrow || keyPressed.Key == ConsoleKey.A) //pohyb vlevo
+                        {
+                            move.x--;
+                        }
+                        else if (keyPressed.Key == ConsoleKey.RightArrow || keyPressed.Key == ConsoleKey.D) //pohyb vpravo
+                        {
+                            move.x++;
+                        }
+                        if (currentMap.walls[player.y + move.y, player.x + move.x].isWall == false)
+                        {
+                            //moves the map and the player stays in the center
+                            if (topLeftCornerShown.y + move.y >= 0 && topLeftCornerShown.y + move.y <= currentMap.walls.GetLength(0) - mapBoxHeight)
+                            {
+                                topLeftCornerShown.y = topLeftCornerShown.y + move.y;
+                                player.y = player.y + move.y;
+                            }
+                            //moves the player (approaching end of the map)
+                            else
+                            {
+                                player.y = player.y + move.y;
+                            }
+                            //moves the map and the player stays in the center
+                            if (topLeftCornerShown.x + move.x >= 0 && topLeftCornerShown.x + move.x <= currentMap.walls.GetLength(1) - mapBoxWidth)
+                            {
+                                topLeftCornerShown.x = topLeftCornerShown.x + move.x;
+                                player.x = player.x + move.x;
+                            }
+                            //moves the player
+                            else
+                            {
+                                player.x = player.x + move.x;
+                            }
+                        }
+                    }
+                    break;
+
+                default:
+                    if (keyPressed.Key == ConsoleKey.E)
+                    {
+                        if (!player.inventory.Any<Item>())
+                            WriteIntoActionText("inventory is empty");
+                        else
+                        {
+                            PrintInventory();
+                            while (inventoryEscape == false)
+                            {
+                                InventoryTick();
+                            }
+                            inventoryEscape = false;
+                        }
+                    }
+                    else if (keyPressed.Key == ConsoleKey.Escape)
+                    {
+                        gameMenu.PauseMenu();
+
+                        RefreshPrint();
+                    }
+                    else if (keyPressed.Key == ConsoleKey.F5)
+                        RefreshPrint();
+                    break;
+
+            }        
+
             
-            //movement 2.0
-            {
-                Coord move = new Coord(0, 0, false, false);
-                if (keyPressed.Key == ConsoleKey.UpArrow || keyPressed.Key == ConsoleKey.W)
-                {
-                    move.y--;
-                }
-                else if (keyPressed.Key == ConsoleKey.DownArrow || keyPressed.Key == ConsoleKey.S)
-                {
-                    move.y++;
-                }
-                else if (keyPressed.Key == ConsoleKey.LeftArrow || keyPressed.Key == ConsoleKey.A)
-                {
-                    move.x--;
-                }
-                else if (keyPressed.Key == ConsoleKey.RightArrow || keyPressed.Key == ConsoleKey.D)
-                {
-                    move.x++;
-                }
-                if (currentMap.walls[player.y + move.y, player.x + move.x].isWall == false)
-                {
-                    //moves the map and the player stays in the center
-                    if (topLeftCornerShown.y + move.y >= 0 && topLeftCornerShown.y + move.y <= currentMap.walls.GetLength(0) - mapBoxHeight)
-                    {
-                        topLeftCornerShown.y = topLeftCornerShown.y + move.y;
-                        player.y = player.y + move.y;
-                    }
-                    //moves the player (approaching end of the map)
-                    else
-                    {
-                        player.y = player.y + move.y;
-                    }
-                    //moves the map and the player stays in the center
-                    if (topLeftCornerShown.x + move.x >= 0 && topLeftCornerShown.x + move.x <= currentMap.walls.GetLength(1) - mapBoxWidth)
-                    {
-                        topLeftCornerShown.x = topLeftCornerShown.x + move.x;
-                        player.x = player.x + move.x;
-                    }
-                    //moves the player
-                    else
-                    {
-                        player.x = player.x + move.x;
-                    }
-                }
-            }
-
-            if (keyPressed.Key == ConsoleKey.E)
-            {
-                if (!player.inventory.Any<Item>())
-                    WriteIntoActionText("inventory is empty");
-                else
-                {
-                    PrintInventory();
-                    while (inventoryEscape == false)
-                    {
-                        InventoryTick();
-                    }
-                    inventoryEscape = false;
-                }
-            }
-            else if (keyPressed.Key == ConsoleKey.Escape)
-            {
-                gameMenu.PauseMenu();
-
-                RefreshPrint();
-            }
-            else if (keyPressed.Key == ConsoleKey.F5)
-                RefreshPrint();
 
         }
 

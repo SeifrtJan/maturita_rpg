@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace maturita_rpg
 {
-    internal partial class Game
+    partial class Game
     {
         public List<string>? ActionText;
         public int ActionTextBoxWidth;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace maturita_rpg
 {
-    internal partial class Game
+    partial class Game
     {
         private bool inventoryEscape;
         public int selectedItemIndex;

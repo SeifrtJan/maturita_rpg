@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace maturita_rpg
 {
-    internal class Map
+    class Map
     {
         public Coord[,] walls;
         public List<GameObject> gameObjects;
