@@ -10,20 +10,30 @@ namespace maturita_rpg
     {
         public Door twinDoor;
         public Map enteredMap;
+        public bool isEndOfGame;
 
         public Door(int y, int x) : base(y, x)
         {
             charToPrint = '%';
+            isEndOfGame = false;
         }
 
         public override void TakeEffect(Game game)
         {
-            game.currentMap = enteredMap;
-            game.player.y = twinDoor.y;
-            game.player.x = twinDoor.x;
+            if (!isEndOfGame)
+            {
+                game.currentMap = enteredMap;
+                game.player.y = twinDoor.y;
+                game.player.x = twinDoor.x;
 
-            game.UpdateMapView();
-            game.PrintCurrentArea();            
+                game.UpdateMapView();
+                game.PrintCurrentArea();
+            }
+            else
+            {
+                game.gameWon = true;
+            }
+
         }
     }
 }

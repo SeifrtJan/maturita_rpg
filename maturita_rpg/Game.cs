@@ -53,16 +53,12 @@
                             maps[maps.Count - 1].gameObjects.Add(new EnemyObject(y, x));
                             break;
 
-                        case 'W':
-                            maps[maps.Count - 1].gameObjects.Add(new WinObject(y, x));
-                            break;
                     }
 
                 }                
             }
         }
 
-        
         private void ConfigDoors()
         {
             Map tutorialMap = maps[0];
@@ -152,6 +148,7 @@
             finalMapDoors[0].twinDoor = corridorMapDoors[3];
             finalMapDoors[1].enteredMap = corridorsMap;
             finalMapDoors[1].twinDoor = corridorMapDoors[4];
+            finalMapDoors[2].isEndOfGame = true;
         }
 
         private void ConfigChests() 
@@ -284,7 +281,7 @@
             finalMapEnemies[1].enemy = new Enemy("Skeleton", 200, 80, 10, this);
             finalMapEnemies[2].enemy = new Enemy("Bosses PA", 200, 150, 20, this);
             finalMapEnemies[3].enemy = new Enemy("Ghost", 300, 70, 60, this);
-            finalMapEnemies[4].enemy = new Enemy("FINAL BOSS", 1500, 90, 40, this);
+            finalMapEnemies[4].enemy = new Enemy("Monke Frankie", 1500, 90, 40, this);
         }
       
 
@@ -465,17 +462,15 @@
         }
 
         private void CheckForCollisions()
-        {
-            
+        {            
             foreach (var gameObject in currentMap.gameObjects)
             {
                 if (player.y == gameObject.y && player.x == gameObject.x)
                 {
                     gameObject.TakeEffect(this);
+                    break;
                 }
             }
-                
-
         }
 
         public void UpdateMapView()

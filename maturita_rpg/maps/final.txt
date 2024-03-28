@@ -19,5 +19,5 @@ xxxxxxxx##.................##xxxxxxxx
 xxxxxxxx#########...#########xxxxxxxx
 xxxxxxxxxxxxxx####§####xxxxxxxxxxxxxx
 xxxxxxxxxxxxxx###...###xxxxxxxxxxxxxx
-xxxxxxxxxxxxxx####W####xxxxxxxxxxxxxx
+xxxxxxxxxxxxxx####%####xxxxxxxxxxxxxx
 xxxxxxxxxxxxxx#########xxxxxxxxxxxxxx
