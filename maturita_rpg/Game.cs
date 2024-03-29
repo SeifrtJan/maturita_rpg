@@ -23,7 +23,7 @@
 
         public Game()
         {
-            tutorialPlayed = true;
+            tutorialPlayed = false;
             Initialize();
         }
 
@@ -582,14 +582,9 @@
             }
             else
             {
-                currentMap = maps[2];//
-                player.equipedWeapon = new Weapon("Baseball bat", "Can be deadly.", 35);
-                player.equipedArmor = new Armor("Chainmail Pants", "More comfy than you'd think!", 35);
-
-
+                currentMap = maps[1];
                 player.x = 5;
                 player.y = 5;
-
             }
 
             ConfigDoors();
