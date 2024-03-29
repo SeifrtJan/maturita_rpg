@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace maturita_rpg
+﻿namespace maturita_rpg
 {
     abstract class Character
     {
@@ -32,8 +25,7 @@ namespace maturita_rpg
             {
                 damageTaken = 0;
             }
-
-            if (damageTaken > hp)
+            else if (damageTaken > hp)
                 hp = 0;
             else
                 hp = hp - damageTaken;

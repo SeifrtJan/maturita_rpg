@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace maturita_rpg
+﻿namespace maturita_rpg
 {
     partial class Game
     {
@@ -62,12 +55,12 @@ namespace maturita_rpg
                 inventoryEscape = true;
             }
 
-            if (keyPressed.Key == ConsoleKey.DownArrow && selectedItemIndex + 1 < this.player.inventory.Count)
+            if ((keyPressed.Key == ConsoleKey.DownArrow || keyPressed.Key == ConsoleKey.D) && selectedItemIndex + 1 < player.inventory.Count)
             {
                 selectedItemIndex++;
                 PrintInventory();
             }
-            else if (keyPressed.Key == ConsoleKey.UpArrow && selectedItemIndex > 0)
+            else if ((keyPressed.Key == ConsoleKey.UpArrow || keyPressed.Key == ConsoleKey.W) && selectedItemIndex > 0)
             {
                 selectedItemIndex--;
                 PrintInventory();

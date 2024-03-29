@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Channels;
-using System.Threading.Tasks;
-
-namespace maturita_rpg
+﻿namespace maturita_rpg
 {
     internal class GameMenu
     {
@@ -19,6 +12,7 @@ namespace maturita_rpg
                 "WASD or Arrows -> movement",
                 "E -> open inventory",
                 "Esc -> Pause menu",
+                "F5 -> refresh print", 
                 "",
                 "Inventory:",
                 "E or Esc -> close inventory",

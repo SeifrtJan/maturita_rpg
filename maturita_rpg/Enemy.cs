@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace maturita_rpg
+﻿namespace maturita_rpg
 {
     internal class Enemy : Character
     {
@@ -15,6 +9,7 @@ namespace maturita_rpg
         public override void TakeTurn(Character player)
         {
             player.TakeDamage(damage);
+            game.PrintPlayerInfo();
             game.WriteIntoCombatText(" ");
         }
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace maturita_rpg
+﻿namespace maturita_rpg
 {
     internal class Player : Character
     {
@@ -23,7 +17,6 @@ namespace maturita_rpg
             inventory = new List<Item>();
             equipedArmor = new Armor("none", "", 0);
             equipedWeapon = new Weapon("none", "", 0);
-            this.damage = 10;
             totalDamage = damage;
             maxHP = hp;
         }
@@ -41,16 +34,17 @@ namespace maturita_rpg
             while (attackDamage == 0)
             {
                 ConsoleKeyInfo keyPressed = Console.ReadKey(intercept: true);
-                if (keyPressed.Key == ConsoleKey.D1) //normal attack 
+                if (keyPressed.Key == ConsoleKey.D1 || keyPressed.Key == ConsoleKey.NumPad1) //normal attack 
                 {
                     attackDamage = totalDamage;
                 }
-                else if (keyPressed.Key == ConsoleKey.D2) //special attack - chance for crit
+                else if (keyPressed.Key == ConsoleKey.D2 || keyPressed.Key == ConsoleKey.NumPad2) //special attack - chance for crit
                 {
                     hp -= 5;
+                    game.PrintPlayerInfo();
                     if (game.rng.Next(4) == 3) //critical
                     {
-                        attackDamage = totalDamage * (game.rng.Next(25, 60) / 10);
+                        attackDamage = totalDamage * (game.rng.Next(25, 80) / 10); //critical ranges from 2,5 to 8 times totalDamage
                     }
                     else
                         attackDamage = totalDamage;
@@ -61,11 +55,13 @@ namespace maturita_rpg
 
         }
 
-        public override void TakeTurn(Character enemy)
+        public override void TakeTurn(Character opponent)
         {            
-            game.WriteIntoCombatText("normal => 1, chance for crit (-5 hp) => 2");
+            game.WriteIntoCombatText("1 => basic attack, 2 => chance for crit (-5 HP)");
 
+            Enemy enemy = opponent as Enemy;
             enemy.TakeDamage(AttackDamage());
+            enemy.PrintInfo();
         }
 
         public override bool IsDead()

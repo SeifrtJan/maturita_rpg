@@ -21,9 +21,6 @@
 
             while (!player.IsDead() && !enemy.IsDead())
             {
-                PrintPlayerInfo();
-                enemy.PrintInfo();
-
                 attacking.TakeTurn(waiting);                
 
                 Console.ReadKey(true);

@@ -23,7 +23,7 @@
 
         public Game()
         {
-            tutorialPlayed = false;
+            tutorialPlayed = true;
             Initialize();
         }
 
@@ -561,7 +561,7 @@
         {
             Console.CursorVisible = false;
             Console.SetWindowSize(playerInfoBoxWidth + mapBoxWidth + ActionTextBoxWidth + 3, mapBoxHeight + 10);
-            Console.Title = "GAME";
+            Console.Title = "DUNGEON";
 
             gameMenu.StartMenu();
 
@@ -582,7 +582,11 @@
             }
             else
             {
-                currentMap = maps[1];
+                currentMap = maps[2];//
+                player.equipedWeapon = new Weapon("Baseball bat", "Can be deadly.", 35);
+                player.equipedArmor = new Armor("Chainmail Pants", "More comfy than you'd think!", 35);
+
+
                 player.x = 5;
                 player.y = 5;
 
