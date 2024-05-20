@@ -16,8 +16,8 @@
         {
             if (!isEndOfGame)
             {
-                game.currentMap = enteredMap;
-                game.player.y = twinDoor.y;
+                game.currentMap = enteredMap; //changes the current map
+                game.player.y = twinDoor.y; //changes player's location
                 game.player.x = twinDoor.x;
 
                 game.UpdateMapView();

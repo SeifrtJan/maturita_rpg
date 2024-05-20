@@ -27,6 +27,7 @@
             armor = equipedArmor.armor;
         }
 
+        //handles attack choice, calculates attack damage
         private int AttackDamage()
         {
             int attackDamage = 0;
@@ -60,7 +61,7 @@
             game.WriteIntoCombatText("1 => basic attack, 2 => chance for crit (-5 HP)");
 
             Enemy enemy = opponent as Enemy;
-            enemy.TakeDamage(AttackDamage());
+            enemy.TakeDamage(AttackDamage()); //this is where the player chooses attacks
             enemy.PrintInfo();
         }
 

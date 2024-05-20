@@ -12,7 +12,7 @@
         {
             if (enemy.hp > 0)
             {
-                game.Combat(enemy);
+                game.Combat(enemy); //starts a fight
             }
             else
                 game.WriteIntoActionText("You have defeated this enemy");

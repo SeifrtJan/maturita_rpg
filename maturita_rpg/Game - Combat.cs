@@ -2,8 +2,8 @@
 {
     partial class Game
     {
-        public List<string> CombatText;
-        public int combatLineIndex;
+        public List<string> CombatText; //private
+        public int combatLineIndex; //private
         public void Combat(Enemy enemy)
         {
             EraseCombatText();
@@ -88,7 +88,7 @@
             PrintCombatText();
         }
 
-        public void EraseCombatText()
+        public void EraseCombatText() //private
         {
             CombatText.Clear();
             combatLineIndex = 0;

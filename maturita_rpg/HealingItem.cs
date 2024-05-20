@@ -9,6 +9,7 @@
             this.healAmount = healAmount;
         }
 
+        //regenerates HP
         public override void Equip()
         {
             if (game.player.hp + healAmount > game.player.maxHP)
@@ -16,7 +17,7 @@
             else
                 game.player.hp = game.player.hp + healAmount;
 
-            game.player.inventory.Remove(this);
+            game.player.inventory.Remove(this); //the heal is one use only
 
             game.selectedItemIndex = 0;
             game.PrintInventory();

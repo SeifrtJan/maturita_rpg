@@ -6,13 +6,15 @@
         {
         }
 
+        //called each turn of combat
         public override void TakeTurn(Character player)
         {
-            player.TakeDamage(damage);
+            player.TakeDamage(damage); //deals damage to player
             game.PrintPlayerInfo();
             game.WriteIntoCombatText(" ");
         }
 
+        //checks if enemy is dead
         public override bool IsDead()
         {
             if (hp <= 0)
@@ -25,6 +27,7 @@
             return false;   
         }
 
+        //prints enemy info in combat
         public void PrintInfo()
         {
             game.PrintBorders();

@@ -2,40 +2,42 @@
 {
     partial class Game
     {
-        public List<Map>? maps;
-        public Map? currentMap;
-        private Coord? topLeftCornerShown;
+        public List<Map>? maps; //private
+        public Map? currentMap; 
         public Player player;
 
         //vars for print
-        public int mapBoxWidth;
+        private Coord? topLeftCornerShown;
+        public int mapBoxWidth; //private
         private int mapBoxHeight;
         public int mapOffsetLeft;
         public int mapOffsetTop;
         private int playerInfoBoxWidth;
 
-        public GameMenu? gameMenu;
+        public GameMenu? gameMenu; //private
 
         public Random rng;
 
         private bool tutorialPlayed;
         public bool gameWon;
 
-        public Game()
+        public Game() //constructor
         {
             tutorialPlayed = false;
             Initialize();
         }
-
+        
+        //Loads map from files
         private void LoadMap(string path)
         {
             string[] lines = File.ReadAllLines(path);
-            maps.Add(new Map(new Coord[lines.Length, lines[0].Length]));
+            maps.Add(new Map(new Coord[lines.Length, lines[0].Length])); //creates the "walls" array of the map
 
             for (int y = 0; y < lines.Length; y++)
             {
                 for (int x = 0; x < lines[y].Length; x++)
                 {
+                    //sets walls and dead space of the map
                     maps[maps.Count -1].walls[y, x] = new Coord(y, x, lines[y][x] == '#' || lines[y][x] == 'x', lines[y][x] == 'x');
 
                     //objects
@@ -59,6 +61,7 @@
             }
         }
 
+        //configures all doors
         private void ConfigDoors()
         {
             Map tutorialMap = maps[0];
@@ -67,6 +70,7 @@
             Map roomsMap = maps[3];
             Map finalMap = maps[4];
 
+            //first creates a list of doors for each map
             //TUTORIAL
             List<Door> tutorialMapDoors = new List<Door>();
             foreach (var gameObject in tutorialMap.gameObjects)
@@ -74,7 +78,6 @@
                 if (gameObject is Door)
                     tutorialMapDoors.Add(gameObject as Door);
             }
-
             //MAZE
             List<Door> mazeMapDoors = new List<Door>();
             foreach (var gameObject in mazeMap.gameObjects)
@@ -82,7 +85,6 @@
                 if (gameObject is Door)
                     mazeMapDoors.Add(gameObject as Door);
             }
-
             //CORRIDOR
             List<Door> corridorMapDoors = new List<Door>();
             foreach (var gameObject in corridorsMap.gameObjects)
@@ -90,7 +92,6 @@
                 if (gameObject is Door)
                     corridorMapDoors.Add(gameObject as Door);
             }
-
             //ROOMS
             List<Door> roomsMapDoors = new List<Door>();
             foreach (var gameObject in roomsMap.gameObjects)
@@ -98,7 +99,6 @@
                 if (gameObject is Door)
                     roomsMapDoors.Add(gameObject as Door);
             }
-
             //FINAL 
             List<Door> finalMapDoors = new List<Door>();
             foreach (var gameObject in finalMap.gameObjects)
@@ -106,6 +106,8 @@
                 if (gameObject is Door)
                     finalMapDoors.Add(gameObject as Door);
             }
+
+            //then sets the vars of each door
 
             //tutorial
             tutorialMapDoors[0].enteredMap = mazeMap;
@@ -148,9 +150,10 @@
             finalMapDoors[0].twinDoor = corridorMapDoors[3];
             finalMapDoors[1].enteredMap = corridorsMap;
             finalMapDoors[1].twinDoor = corridorMapDoors[4];
-            finalMapDoors[2].isEndOfGame = true;
+            finalMapDoors[2].isEndOfGame = true; //this is the last door, if you go through you win
         }
 
+        //configures all chests
         private void ConfigChests() 
         {
             Map tutorialMap = maps[0];
@@ -159,6 +162,7 @@
             Map roomsMap = maps[3];
             Map finalMap = maps[4];
 
+            //first creates list of chests for each map, then creates a new item and sets it as the content of the chest (repeats for all chests)
             //TUTORIAL
             List<Chest> tutorialMapChests = new List<Chest>();
             foreach (var gameObject in tutorialMap.gameObjects)
@@ -219,6 +223,7 @@
             finalMapChests[1].content = new HealingItem("Last Supper", "Might be the last thing you ever eat.", 80);            
         }
 
+        //configures enemies and enemyObjects
         private void ConfigEnemies()
         {
             Map tutorialMap = maps[0];
@@ -227,6 +232,7 @@
             Map roomsMap = maps[3];
             Map finalMap = maps[4];
 
+            //first creates a list of enemyObjects for each map, then (for each enemyObject) creates new enemy and sets it as the object's enemy
             //TUTORIAL
             List<EnemyObject> tutorialMapEnemies = new List<EnemyObject>();
             foreach (var gameObject in tutorialMap.gameObjects)
@@ -284,7 +290,7 @@
             finalMapEnemies[4].enemy = new Enemy("Monke Frankie", 1500, 90, 40, this);
         }
       
-
+        //prints the current arrea of the map into the center segment of the console
         public void PrintCurrentArea()
         {
             char[,] SymbolsToPrint = new char[mapBoxHeight, mapBoxWidth];
@@ -296,26 +302,26 @@
                 {
                     if (currentMap.walls[topLeftCornerShown.y + y, topLeftCornerShown.x + x].isDeadSpace)
                     {
-                        SymbolsToPrint[y, x] = ' ';
+                        SymbolsToPrint[y, x] = ' '; //deadspaces print as empty chars
                     }
                     else if (currentMap.walls[topLeftCornerShown.y + y, topLeftCornerShown.x + x].isWall)
                     {
-                        SymbolsToPrint[y, x] = '#';
+                        SymbolsToPrint[y, x] = '#'; //walls print as #
                     }
                     else if (topLeftCornerShown.y + y == player.y && topLeftCornerShown.x + x == player.x)
                     {
-                        SymbolsToPrint[y, x] = '@';
+                        SymbolsToPrint[y, x] = '@'; //player == @
                     }                    
                     else
                     {
-                        SymbolsToPrint[y, x] = '.';
+                        SymbolsToPrint[y, x] = '.'; //walkable tiles
                     }
 
                     foreach (GameObject gameObject in currentMap.gameObjects)
                     {
                         if (topLeftCornerShown.y + y == gameObject.y && topLeftCornerShown.x + x == gameObject.x)
                         {
-                            SymbolsToPrint[y, x] = gameObject.charToPrint;
+                            SymbolsToPrint[y, x] = gameObject.charToPrint; 
                         }
                     }
                 }
@@ -332,7 +338,8 @@
             }
         }
 
-        public void EraseMapBox()
+        //erases the map segment of the console
+        public void EraseMapBox() //private
         {
             for (int y = 0; y < mapBoxHeight; y++)
             {
@@ -346,14 +353,15 @@
             combatLineIndex = 0;
         }
 
-        public void Tick()
+        //ciclycally called method, the core of game's logic
+        public void Tick() //private
         {            
             HandleKeyInput();
             PrintCurrentArea();
             CheckForCollisions();
         }
 
-
+        //handles keyboard input
         private void HandleKeyInput()
         {
             ConsoleKeyInfo keyPressed = Console.ReadKey(intercept: true);
@@ -370,19 +378,19 @@
                     //movement 2.0
                     {
                         Coord move = new Coord(0, 0, false, false);
-                        if (keyPressed.Key == ConsoleKey.UpArrow || keyPressed.Key == ConsoleKey.W) //pohyb nahoru
+                        if (keyPressed.Key == ConsoleKey.UpArrow || keyPressed.Key == ConsoleKey.W) //up
                         {
                             move.y--;
                         }
-                        else if (keyPressed.Key == ConsoleKey.DownArrow || keyPressed.Key == ConsoleKey.S) //pohyb dolů 
+                        else if (keyPressed.Key == ConsoleKey.DownArrow || keyPressed.Key == ConsoleKey.S) //down
                         {
                             move.y++;
                         }
-                        else if (keyPressed.Key == ConsoleKey.LeftArrow || keyPressed.Key == ConsoleKey.A) //pohyb vlevo
+                        else if (keyPressed.Key == ConsoleKey.LeftArrow || keyPressed.Key == ConsoleKey.A) //left
                         {
                             move.x--;
                         }
-                        else if (keyPressed.Key == ConsoleKey.RightArrow || keyPressed.Key == ConsoleKey.D) //pohyb vpravo
+                        else if (keyPressed.Key == ConsoleKey.RightArrow || keyPressed.Key == ConsoleKey.D) //right
                         {
                             move.x++;
                         }
@@ -415,7 +423,8 @@
                     break;
 
                 default:
-                    if (keyPressed.Key == ConsoleKey.E)
+                    //non movement actions
+                    if (keyPressed.Key == ConsoleKey.E) //inventory
                     {
                         if (!player.inventory.Any<Item>())
                             WriteIntoActionText("inventory is empty");
@@ -429,13 +438,13 @@
                             inventoryEscape = false;
                         }
                     }
-                    else if (keyPressed.Key == ConsoleKey.Escape)
+                    else if (keyPressed.Key == ConsoleKey.Escape) //pausing the game
                     {
                         gameMenu.PauseMenu();
 
                         RefreshPrint();
                     }
-                    else if (keyPressed.Key == ConsoleKey.F5)
+                    else if (keyPressed.Key == ConsoleKey.F5) // refreshing print
                         RefreshPrint();
                     break;
 
@@ -445,6 +454,7 @@
 
         }
 
+        //prints borders of console segments
         public void PrintBorders()
         {
             Console.ForegroundColor = ConsoleColor.Red;            
@@ -477,6 +487,7 @@
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+        //checks if the player is on the same tile as a game object
         private void CheckForCollisions()
         {            
             foreach (var gameObject in currentMap.gameObjects)
@@ -489,6 +500,7 @@
             }
         }
 
+        //updates map view
         public void UpdateMapView()
         {
             //centers player
@@ -521,7 +533,7 @@
             }
         }
                
-        private void Initialize() 
+        private void Initialize() //called in the constructor
         {
             //map
             maps = new List<Map>();          
@@ -557,24 +569,28 @@
             gameWon = false;
         }
 
+        //configures the whole game
         private void StartGame()
         {
+            //console setup
             Console.CursorVisible = false;
             Console.SetWindowSize(playerInfoBoxWidth + mapBoxWidth + ActionTextBoxWidth + 3, mapBoxHeight + 10);
             Console.Title = "DUNGEON";
 
+            //shows the start menu
             gameMenu.StartMenu();
 
+            //loads all maps
             LoadMap("../../../\\maps\\tutorial.txt");
             LoadMap("../../../\\maps\\maze.txt");
             LoadMap("../../../\\maps\\corridors.txt");
             LoadMap("../../../\\maps\\rooms.txt");
             LoadMap("../../../\\maps\\final.txt");
 
-            //player plays tutorial only once
+            //tutorial is played only once
             if (tutorialPlayed == false)
             {
-                currentMap = maps[0];
+                currentMap = maps[0]; //here
                 tutorialPlayed = true;
 
                 gameMenu.TutorialMenu();
@@ -583,10 +599,11 @@
             else
             {
                 currentMap = maps[1];
-                player.x = 5;
+                player.x = 5; //here
                 player.y = 5;
             }
 
+            //configures all game objects
             ConfigDoors();
             ConfigChests();
             ConfigEnemies();
@@ -598,7 +615,7 @@
         {
             Initialize();
             StartGame();
-            while (!player.IsDead() && !gameWon)
+            while (!player.IsDead() && !gameWon) //Tick method repeats until player dies or wins
             {
                 Tick();
             }
@@ -608,7 +625,8 @@
                 gameMenu.EndMenu();
         }
 
-        public void RefreshPrint()
+        //erases console and reprints the game
+        public void RefreshPrint() //private
         {
             Console.Clear();
             PrintBorders();

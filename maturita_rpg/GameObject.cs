@@ -11,6 +11,8 @@
             this.y = y;
             this.x = x;
         }
+        
+        //called when player steps on the object's tile
         public abstract void TakeEffect(Game game);
     }
 }

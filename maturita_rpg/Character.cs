@@ -6,7 +6,7 @@
         public int hp;
         public int damage;
         public int armor;
-        public Game game;
+        public Game game; //could be protected
 
         protected Character(string name, int hp, int damage, int armor, Game game)
         {

@@ -11,12 +11,13 @@
             List<string> allItemsNames = new List<string>();
 
             Console.SetCursorPosition(mapOffsetLeft, mapOffsetTop);
-            Console.Write("--------INVENTORY--------");
+            Console.Write("----------INVENTORY-----------");
             foreach (Item item in player.inventory)
             {
                 allItemsNames.Add(item.name);
             }
 
+            //actual print
             for (int i = 0; i < allItemsNames.Count && i < mapBoxHeight - 1; i++)
             {
                 Console.SetCursorPosition(mapOffsetLeft, mapOffsetTop + i + 1);
@@ -37,32 +38,34 @@
             }
         }
 
-        public void InventoryTick()
+        //the logic of inventory
+        public void InventoryTick() //private
         {
-            if (!player.inventory.Any<Item>())
+            if (!player.inventory.Any<Item>()) //inventory is open unless it has no items
                 inventoryEscape = true;
             else
                 InventoryNavigation();
         }
 
-        private void InventoryNavigation()
+        //processes player input while in inventory
+        private void InventoryNavigation() 
         {           
             Item selectedItem = player.inventory[selectedItemIndex];
 
             ConsoleKeyInfo keyPressed = Console.ReadKey(intercept: true);
-            if (keyPressed.Key == ConsoleKey.E || keyPressed.Key == ConsoleKey.Escape)
+            if (keyPressed.Key == ConsoleKey.E || keyPressed.Key == ConsoleKey.Escape) 
             {
-                inventoryEscape = true;
+                inventoryEscape = true; //closes inv
             }
 
             if ((keyPressed.Key == ConsoleKey.DownArrow || keyPressed.Key == ConsoleKey.D) && selectedItemIndex + 1 < player.inventory.Count)
             {
-                selectedItemIndex++;
+                selectedItemIndex++; //moves down in inv
                 PrintInventory();
             }
             else if ((keyPressed.Key == ConsoleKey.UpArrow || keyPressed.Key == ConsoleKey.W) && selectedItemIndex > 0)
             {
-                selectedItemIndex--;
+                selectedItemIndex--; //move up in inv
                 PrintInventory();
             }
             //equiping an item
@@ -78,7 +81,7 @@
 
         }
 
-        public void ErasePlayerInfoBox()
+        public void ErasePlayerInfoBox() // private
         {
             for (int y = 0; y < mapBoxHeight; y++)
             {
@@ -90,6 +93,7 @@
             }
         }
 
+        //prints info about player into the left console segment
         public void PrintPlayerInfo()
         {
             ErasePlayerInfoBox();

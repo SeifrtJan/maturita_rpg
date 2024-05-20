@@ -5,7 +5,7 @@
         private List<string> controlsText;
         public GameMenu()
         {
-            controlsText = new List<string>()
+            controlsText = new List<string>() //list of game controls
             {
                 "CONTROLS:",
                 "",
@@ -28,7 +28,19 @@
 
         public void StartMenu()
         {
-            PrintInTheCenter(new List<string> { "PRESS ANY KEY TO PLAY" });
+            PrintInTheCenter(new List<string> {
+                " _______   __    __  __    __   ______   ________   ______   __    __ ",
+                "/       \\ /  |  /  |/  \\  /  | /      \\ /        | /      \\ /  \\  /  |",
+                "$$$$$$$  |$$ |  $$ |$$  \\ $$ |/$$$$$$  |$$$$$$$$/ /$$$$$$  |$$  \\ $$ |",
+                "$$ |  $$ |$$ |  $$ |$$$  \\$$ |$$ | _$$/ $$ |__    $$ |  $$ |$$$  \\$$ |",
+                "$$ |  $$ |$$ |  $$ |$$$$  $$ |$$ |/    |$$    |   $$ |  $$ |$$$$  $$ |",
+                "$$ |  $$ |$$ |  $$ |$$ $$ $$ |$$ |$$$$ |$$$$$/    $$ |  $$ |$$ $$ $$ |",
+                "$$ |__$$ |$$ \\__$$ |$$ |$$$$ |$$ \\__$$ |$$ |_____ $$ \\__$$ |$$ |$$$$ |",
+                "$$    $$/ $$    $$/ $$ | $$$ |$$    $$/ $$       |$$    $$/ $$ | $$$ |",
+                "$$$$$$$/   $$$$$$/  $$/   $$/  $$$$$$/  $$$$$$$$/  $$$$$$/  $$/   $$/ ",
+                "",
+                "",
+                "PRESS ANY KEY TO PLAY" });
             Console.ReadKey(true);
             Console.Clear();
         }
@@ -46,18 +58,19 @@
             Console.Clear();
             PrintInTheCenter(new List<string>() { "GAME PAUSED", " ", "Esc -> resume game", "H -> view controls","Del -> close the app" });
 
+            //here the input is processed while the game is paused
             ConsoleKeyInfo keyPressed = Console.ReadKey(true);
             while (true)
             {
                 if (keyPressed.Key == ConsoleKey.Escape)
                 {
-                    break;
+                    break; //resumes game
                 }
                 if (keyPressed.Key == ConsoleKey.Delete)
                 {
-                    Environment.Exit(0);
+                    Environment.Exit(0); //closes app
                 }
-                if (keyPressed.Key == ConsoleKey.H)
+                if (keyPressed.Key == ConsoleKey.H) //prints controls
                 {
                     Console.Clear();
                     PrintInTheCenter(controlsText);
@@ -102,6 +115,7 @@
             Console.ReadKey(true);
         }
         
+        //prints text in the centre of the console
         private void PrintInTheCenter(List<string> text)
         {
             foreach (var line in text)
